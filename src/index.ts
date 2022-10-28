@@ -1,20 +1,11 @@
-let canvas = document.querySelector("canvas") as HTMLCanvasElement;
+import Game from "./logic/game";
 
-let context = canvas.getContext("2d")!;
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+const game = new Game();
 
 const loop = () => {
   requestAnimationFrame(loop);
 
-  context.fillStyle = "#000000";
-  context.fillRect(0, 0, canvas.width, canvas.height);
+  game.tick();
 };
 
 requestAnimationFrame(loop);
