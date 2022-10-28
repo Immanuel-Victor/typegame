@@ -2,6 +2,14 @@ let canvas = document.querySelector("canvas") as HTMLCanvasElement;
 
 let context = canvas.getContext("2d")!;
 
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
 const loop = () => {
   requestAnimationFrame(loop);
 
