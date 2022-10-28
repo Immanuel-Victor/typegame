@@ -1,5 +1,4 @@
-import path from "path";
-const [join, resolve] = path;
+const { join, resolve } = require("path");
 
 module.exports = {
   entry: "./src/index.ts",
@@ -17,7 +16,7 @@ module.exports = {
     filename: "bundle.js",
     path: resolve(__dirname, "public"),
   },
-  deveServer: {
+  devServer: {
     static: {
       directory: join(__dirname, "public"),
     },
