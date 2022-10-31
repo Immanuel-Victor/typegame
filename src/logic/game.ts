@@ -1,6 +1,6 @@
 import Entity from "../entities/entity";
 import Player from "../entities/player";
-import { Vector, __follow__ } from "../types/lib";
+import { Vector, __follow__, __size__ } from "../types/lib";
 
 export default class Game {
   private canvas = document.querySelector("canvas") as HTMLCanvasElement;
@@ -11,11 +11,7 @@ export default class Game {
     y: -window.innerHeight / 2,
   };
 
-  private tiles: Entity[] = [
-    new Entity({ x: 0, y: 100 }, { x: 500, y: 20 }, "#FFFFFF"),
-    new Entity({ x: 200, y: 0 }, { x: 20, y: 200 }, "#FFFFFF"),
-    new Entity({ x: -200, y: 0 }, { x: 20, y: 200 }, "#FFFFFF"),
-  ];
+  private tiles: Entity[] = [];
 
   private keys = {
     left: false,
@@ -63,6 +59,25 @@ export default class Game {
         (this.cam.y + this.canvas.height / 2 - this.player.getPosition.y) *
           __follow__.y
     );
+  }
+
+  public loadMap(map: number[][]) {
+    for (let i = 0; i < map.length; i++) {
+      for (let j = 0; j < map[i].length; j++) {
+        if (map[i][j] === 1) {
+          this.tiles.push(
+            new Entity(
+              {
+                x: (j - (map[i].length - 1) / 2) * __size__,
+                y: (i - (map.length - 1) / 2) * __size__,
+              },
+              { x: __size__, y: __size__ },
+              "#FFFFFF"
+            )
+          );
+        }
+      }
+    }
   }
 
   public handleKey(event: KeyboardEvent, down: boolean) {
