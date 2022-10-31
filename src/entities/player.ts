@@ -16,20 +16,32 @@ export default class Player extends Entity {
     super({ x: 0, y: 0 }, { x: __size__, y: __size__ }, "#0000FF");
   }
 
-  public tick(ground: Entity) {
+  public tick(tiles: Entity[]) {
     this.position.x += this.velocity.x;
+
+    for (const tile of tiles) {
+      if (this.checkColision(tile)) {
+        this.position.x -=
+          this.velocity.x > 0
+            ? this.getBoundries.right - tile.getBoundries.left
+            : this.getBoundries.left - tile.getBoundries.right;
+        this.velocity.x = 0;
+      }
+    }
+
     this.position.y -= this.velocity.y;
 
     this.grounded = false;
+    for (const tile of tiles) {
+      if (this.checkColision(tile)) {
+        this.position.y -=
+          this.velocity.y > 0
+            ? this.getBoundries.top - tile.getBoundries.down
+            : this.getBoundries.down - tile.getBoundries.top;
 
-    if (this.checkColision(ground)) {
-      this.position.y -=
-        this.velocity.y > 0
-          ? this.getBoundries.top - ground.getBoundries.down
-          : this.getBoundries.down - ground.getBoundries.top;
-
-      this.velocity.y = 0;
-      this.grounded = this.position.y < ground.getPosition.y;
+        this.velocity.y = 0;
+        this.grounded = this.position.y < tile.getPosition.y;
+      }
     }
 
     this.velocity.x *= __friction__;
